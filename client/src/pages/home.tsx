@@ -120,22 +120,22 @@ export default function Home() {
                   Scale Your Business with
                   <span className="text-yellow-300"> Global Talent</span>
                 </h1>
-                <p className="text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed">
+                <p className="text-xl lg:text-2xl mb-8 text-gray-200 leading-relaxed">
                   Comprehensive manpower outsourcing solutions tailored for modern businesses. 
                   From virtual staffing to direct hire, we connect you with the right talent.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                  <Button className="bg-white text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  <Button className="bg-white text-red-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg">
                     <Play className="w-4 h-4 mr-2" />
                     Watch Demo
                   </Button>
-                  <Button variant="outline" className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition-all duration-300">
+                  <Button variant="outline" className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-red-600 transition-all duration-300">
                     Learn More
                   </Button>
                 </div>
                 
                 {/* Trust Indicators */}
-                <div className="flex items-center space-x-8 text-blue-200">
+                <div className="flex items-center space-x-8 text-gray-300">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-white">500+</div>
                     <div className="text-sm">Happy Clients</div>
@@ -197,7 +197,7 @@ export default function Home() {
                       ))}
                     </div>
                     
-                    <Button className="w-full bg-primary text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 group-hover:shadow-lg">
+                    <Button className="w-full bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition-all duration-300 group-hover:shadow-lg">
                       Learn More <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </CardContent>
@@ -273,6 +273,72 @@ export default function Home() {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Company Overview */}
+        <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">
+                Your Trusted Partner in
+                <span className="text-red-600"> Global Staffing</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                At Accord Manpower, we specialize in providing comprehensive manpower outsourcing solutions 
+                that help businesses scale efficiently while maintaining quality and reducing costs.
+              </p>
+            </div>
+            
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="space-y-6">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-6 h-6 text-red-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-semibold text-gray-900 mb-2">Reliability</h4>
+                      <p className="text-gray-600 leading-relaxed">Consistent delivery of high-quality staffing solutions with a proven track record.</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Clock className="w-6 h-6 text-red-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-semibold text-gray-900 mb-2">Efficiency</h4>
+                      <p className="text-gray-600 leading-relaxed">Quick turnaround times without compromising on candidate quality and fit.</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Globe className="w-6 h-6 text-red-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-semibold text-gray-900 mb-2">Global Reach</h4>
+                      <p className="text-gray-600 leading-relaxed">Access to talent pools across 50+ countries for diverse staffing needs.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-red-600 to-black rounded-2xl p-8 text-white">
+                <h4 className="text-2xl font-bold mb-4">Ready to Scale Your Team?</h4>
+                <p className="text-gray-200 mb-6 leading-relaxed">
+                  Connect with our experts to discuss your staffing needs and discover how we can help 
+                  you build a world-class team that drives your business forward.
+                </p>
+                <div className="space-y-4">
+                  <Button className="w-full bg-white text-red-600 hover:bg-gray-100 font-semibold py-3">
+                    Schedule Consultation
+                  </Button>
+                  <Button variant="outline" className="w-full border-white text-white hover:bg-white hover:text-red-600 font-semibold py-3">
+                    View Case Studies
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </section>

@@ -12,22 +12,22 @@ export function HeroSection() {
               Scale Your Business with
               <span className="text-yellow-300"> Global Talent</span>
             </h1>
-            <p className="text-xl lg:text-2xl mb-8 text-blue-100 leading-relaxed">
+            <p className="text-xl lg:text-2xl mb-8 text-gray-200 leading-relaxed">
               Comprehensive manpower outsourcing solutions tailored for modern businesses. 
               From virtual staffing to direct hire, we connect you with the right talent.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <Button className="bg-white text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg">
+              <Button className="bg-white text-red-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg">
                 <Play className="w-4 h-4 mr-2" />
                 Watch Demo
               </Button>
-              <Button variant="outline" className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition-all duration-300">
+              <Button variant="outline" className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-red-600 transition-all duration-300">
                 Learn More
               </Button>
             </div>
             
             {/* Trust Indicators */}
-            <div className="flex items-center space-x-8 text-blue-200">
+            <div className="flex items-center space-x-8 text-gray-300">
               <div className="text-center">
                 <div className="text-2xl font-bold text-white">500+</div>
                 <div className="text-sm">Happy Clients</div>

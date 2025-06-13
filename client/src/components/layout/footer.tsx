@@ -20,16 +20,18 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-neutral-dark text-white py-16">
+    <footer className="bg-black text-white py-16">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8 mb-12">
           {/* Company Info */}
           <div>
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">A</span>
-              </div>
-              <span className="text-xl font-bold">Accord Manpower</span>
+            <div className="flex items-center space-x-3 mb-6">
+              <img 
+                src="/attached_assets/Accordmp logo1_1749835050687.png" 
+                alt="Accord Manpower" 
+                className="w-10 h-10 object-contain"
+              />
+              <span className="text-xl font-bold text-red-600">Accord Manpower</span>
             </div>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Your trusted partner for comprehensive manpower outsourcing solutions. 

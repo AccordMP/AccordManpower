@@ -49,11 +49,13 @@ export function Header() {
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">A</span>
-            </div>
-            <span className="text-2xl font-bold gradient-text">Accord Manpower</span>
+          <Link href="/" className="flex items-center space-x-3">
+            <img 
+              src="/attached_assets/Accordmp logo1_1749835050687.png" 
+              alt="Accord Manpower" 
+              className="w-12 h-12 object-contain"
+            />
+            <span className="text-2xl font-bold text-red-600">Accord Manpower</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -108,7 +110,7 @@ export function Header() {
 
           {/* CTA Button & Mobile Menu */}
           <div className="flex items-center space-x-4">
-            <Button className="bg-primary text-white hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <Button className="bg-red-600 text-white hover:bg-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
               Get Quote
             </Button>
             
