@@ -1,165 +1,128 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useAuth } from "@/hooks/use-auth";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
-import { Loader2, Shield, Eye, EyeOff } from "lucide-react";
-import { useLocation } from "wouter";
-
-const loginSchema = z.object({
-  username: z.string().min(1, "Username is required"),
-  password: z.string().min(1, "Password is required"),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { SEOHead } from "@/components/ui/seo-head";
+import { useAuth } from "@/hooks/use-auth";
+import { Lock, User, AlertCircle } from "lucide-react";
 
 export default function AdminLogin() {
   const [, setLocation] = useLocation();
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
-  const { toast } = useToast();
+  const { login, loading } = useAuth();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = async (data: LoginFormData) => {
-    setIsLoading(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    
     try {
-      await login(data.username, data.password);
-      toast({
-        title: "Login Successful",
-        description: "Welcome to the admin panel!",
-      });
+      await login(username, password);
       setLocation("/admin/dashboard");
-    } catch (error: any) {
-      toast({
-        title: "Login Failed",
-        description: error.message || "Invalid credentials. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
+    } catch (err) {
+      setError("Invalid credentials. Please try again.");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-light to-white flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center pb-8">
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-              <Shield className="w-6 h-6 text-white" />
-            </div>
+    <>
+      <SEOHead
+        title="Admin Login - Accord Manpower"
+        description="Administrative access for Accord Manpower management panel"
+      />
+      
+      <div className="min-h-screen bg-gradient-to-br from-red-600 to-black flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          {/* Logo */}
+          <div className="text-center mb-8">
+            <img 
+              src="/attached_assets/Accordmp logo1_1749835050687.png" 
+              alt="Accord Manpower" 
+              className="w-16 h-16 mx-auto mb-4 object-contain"
+            />
+            <h1 className="text-3xl font-bold text-white mb-2">Accord Manpower</h1>
+            <p className="text-gray-200">Administrative Access</p>
           </div>
-          <CardTitle className="text-2xl font-bold gradient-text">
-            Admin Login
-          </CardTitle>
-          <p className="text-gray-600 mt-2">
-            Access the Accord Manpower admin panel
-          </p>
-        </CardHeader>
-        
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Enter your username"
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          {...field}
-                          type={showPassword ? "text" : "password"}
-                          placeholder="Enter your password"
-                          disabled={isLoading}
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0"
-                          onClick={() => setShowPassword(!showPassword)}
-                          disabled={isLoading}
-                        >
-                          {showPassword ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+          <Card className="shadow-2xl border-0">
+            <CardHeader className="space-y-1">
+              <CardTitle className="text-2xl font-bold text-center text-gray-900">
+                Admin Login
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>{error}</AlertDescription>
+                  </Alert>
                 )}
-              />
-
-              <Button
-                type="submit"
-                className="w-full bg-primary hover:bg-blue-700"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Signing In...
-                  </>
-                ) : (
-                  "Sign In"
-                )}
-              </Button>
-            </form>
-          </Form>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Forgot your password?{" "}
-              <a href="#" className="text-primary hover:underline">
-                Contact support
-              </a>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="username" className="text-sm font-medium text-gray-700">
+                    Username
+                  </Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      id="username"
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="Enter your username"
+                      className="pl-10"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                    Password
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Enter your password"
+                      className="pl-10"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <Button 
+                  type="submit" 
+                  className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3"
+                  disabled={loading}
+                >
+                  {loading ? "Signing In..." : "Sign In"}
+                </Button>
+              </form>
+              
+              <div className="mt-6 text-center">
+                <p className="text-sm text-gray-600">
+                  Demo credentials: admin / admin123
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <div className="mt-8 text-center">
+            <p className="text-gray-300 text-sm">
+              © 2024 Accord Manpower. All rights reserved.
             </p>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </div>
+    </>
   );
 }

@@ -38,16 +38,16 @@ export function Footer() {
               We connect businesses with the right talent worldwide.
             </p>
             <div className="flex space-x-4">
-              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white hover:bg-primary">
+              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white hover:bg-red-600">
                 <Linkedin className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white hover:bg-primary">
+              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white hover:bg-red-600">
                 <Twitter className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white hover:bg-primary">
+              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white hover:bg-red-600">
                 <Facebook className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white hover:bg-primary">
+              <Button variant="ghost" size="icon" className="text-gray-300 hover:text-white hover:bg-red-600">
                 <Instagram className="w-5 h-5" />
               </Button>
             </div>
