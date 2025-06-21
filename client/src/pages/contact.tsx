@@ -20,19 +20,19 @@ export default function Contact() {
     {
       icon: MapPin,
       title: "Visit Our Office",
-      details: ["123 Business Center", "New York, NY 10001", "United States"],
+      details: ["3355 153AVE NW", "EDMONTON, AB", "T5Y 4E1"],
       color: "text-blue-600",
     },
     {
       icon: Phone,
       title: "Call Us",
-      details: ["+1-800-ACCORD", "+1 (555) 123-4567", "Toll-free available"],
+      details: ["+1 780-231-9213", "+1 780-800-7771"],
       color: "text-green-600",
     },
     {
       icon: Mail,
       title: "Email Us",
-      details: ["info@accordmanpower.com", "sales@accordmanpower.com", "support@accordmanpower.com"],
+      details: ["accordmp01@gmail.com", "info@accordmp.com"],
       color: "text-purple-600",
     },
     {
@@ -46,9 +46,9 @@ export default function Contact() {
   const globalOffices = [
     {
       city: "New York",
-      address: "123 Business Center, NY 10001",
-      phone: "+1 (555) 123-4567",
-      email: "ny@accordmanpower.com",
+      address: "3355 153AVE NW, EDMONTON, AB T5Y 4E1",
+      phone: "+1 780-231-9213",
+      email: "info@accordmp.com",
     },
     {
       city: "London",

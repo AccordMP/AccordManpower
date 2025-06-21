@@ -22,7 +22,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
+import { api } from "@/lib/api";
 import type { Inquiry } from "@shared/schema";
 import { 
   Search, 
@@ -48,20 +48,12 @@ export default function AdminInquiries() {
 
   const { data: inquiries, isLoading } = useQuery({
     queryKey: ["/api/admin/inquiries"],
-    queryFn: async () => {
-      const response = await fetch("/api/admin/inquiries", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-        },
-      });
-      if (!response.ok) throw new Error("Failed to fetch inquiries");
-      return response.json() as Promise<Inquiry[]>;
-    },
+    queryFn: () => api.get<Inquiry[]>("/api/admin/inquiries"),
   });
 
   const updateStatusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: number; status: string }) => {
-      return apiRequest("PUT", `/api/admin/inquiries/${id}`, { status });
+      return api.put(`/api/admin/inquiries/${id}`, { status });
     },
     onSuccess: () => {
       toast({

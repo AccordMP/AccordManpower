@@ -1,3 +1,12 @@
+// Set default NODE_ENV if not set
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+// Log environment info
+console.log('Starting application with environment:');
+console.log(`- NODE_ENV: ${process.env.NODE_ENV}`);
+console.log(`- Working directory: ${process.cwd()}`);
+console.log('index.ts loaded, beginning app initialization...');
+
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
@@ -5,6 +14,12 @@ import { setupVite, serveStatic, log } from "./vite";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Add request logging middleware
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  next();
+});
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -36,7 +51,17 @@ app.use((req, res, next) => {
   next();
 });
 
+import { ensureAdminUser } from "./supabase";
+
 (async () => {
+  // Ensure the admin user exists in Supabase Auth
+  try {
+    await ensureAdminUser("dmin@accord.com", "StrongPass123!");
+    console.log("Admin user check complete.");
+  } catch (error) {
+    console.error("Failed to ensure admin user:", error);
+    process.exit(1);
+  }
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -56,15 +81,17 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
+  // Serve the app on port 3000
+  // this serves both the API and the client
+  const port = 3000;
+  // Start the server (omit `reusePort` on Windows to avoid ENOTSUP)
+  server.listen(
+    {
+      port,
+      host: "0.0.0.0",
+    },
+    () => {
+      log(`serving on port ${port}`);
+    },
+  );
 })();

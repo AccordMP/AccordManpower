@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { api } from "@/lib/api";
 import { AdminLayout } from "@/components/layout/admin-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,15 +19,7 @@ import { Link } from "wouter";
 export default function AdminDashboard() {
   const { data: stats, isLoading } = useQuery({
     queryKey: ["/api/admin/stats"],
-    queryFn: async () => {
-      const response = await fetch("/api/admin/stats", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
-        },
-      });
-      if (!response.ok) throw new Error("Failed to fetch stats");
-      return response.json();
-    },
+    queryFn: () => api.get("/api/admin/stats"),
   });
 
   const quickActions = [

@@ -12,19 +12,20 @@ import { Lock, User, AlertCircle } from "lucide-react";
 export default function AdminLogin() {
   const [, setLocation] = useLocation();
   const { login, loading } = useAuth();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    
-    try {
-      await login(username, password);
-      setLocation("/admin/dashboard");
-    } catch (err) {
-      setError("Invalid credentials. Please try again.");
+
+    const { error: loginError } = await login(email, password);
+
+    if (loginError) {
+      setError(loginError.message || 'Invalid credentials. Please try again.');
+    } else {
+      setLocation('/admin/dashboard');
     }
   };
 
@@ -64,17 +65,17 @@ export default function AdminLogin() {
                 )}
                 
                 <div className="space-y-2">
-                  <Label htmlFor="username" className="text-sm font-medium text-gray-700">
-                    Username
+                  <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                    Email
                   </Label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                     <Input
-                      id="username"
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      placeholder="Enter your username"
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email"
                       className="pl-10"
                       required
                     />

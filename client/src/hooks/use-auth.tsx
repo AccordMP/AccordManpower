@@ -1,12 +1,11 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { authService, User } from "@/lib/auth";
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { authService, User } from '@/lib/auth';
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (username: string, password: string) => Promise<void>;
-  register: (userData: any) => Promise<void>;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<{ error: any }>;
+  logout: () => Promise<{ error: any }>;
   loading: boolean;
 }
 
@@ -17,36 +16,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in on app start
-    const token = authService.getToken();
-    if (token) {
-      // You might want to verify the token with the server here
-      // For now, we'll assume it's valid if it exists
-      // In a real app, you'd make a request to validate the token
-    }
+    const unsubscribe = authService.onAuthStateChange(setUser);
     setLoading(false);
+    return () => unsubscribe();
   }, []);
 
-  const login = async (username: string, password: string) => {
-    const { user: userData } = await authService.login(username, password);
-    setUser(userData);
+  const login = async (email: string, password: string) => {
+    const { error } = await authService.login(email, password);
+    return { error };
   };
 
-  const register = async (userData: any) => {
-    const { user: newUser } = await authService.register(userData);
-    setUser(newUser);
-  };
-
-  const logout = () => {
-    authService.logout();
-    setUser(null);
+  const logout = async () => {
+    return await authService.logout();
   };
 
   const value = {
     user,
     isAuthenticated: !!user,
     login,
-    register,
     logout,
     loading,
   };

@@ -27,8 +27,8 @@ export function Footer() {
           <div>
             <div className="flex items-center space-x-3 mb-6">
               <img 
-                src="/attached_assets/Accordmp logo1_1749835050687.png" 
-                alt="Accord Manpower" 
+                src="/accord-logo.png" 
+                alt="Accord Manpower Logo" 
                 className="w-10 h-10 object-contain"
               />
               <span className="text-xl font-bold text-red-600">Accord Manpower</span>
@@ -144,17 +144,19 @@ export function Footer() {
               <div className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-300">123 Business Center</p>
-                  <p className="text-gray-300">New York, NY 10001</p>
+                  <p className="text-gray-300">3355 153AVE NW</p>
+                  <p className="text-gray-300">EDMONTON, AB T5Y 4E1</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-primary flex-shrink-0" />
-                <p className="text-gray-300">+1-800-ACCORD</p>
+                <p className="text-gray-300">+1 780-231-9213</p>
+                <p className="text-gray-300">+1 780-800-7771</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-primary flex-shrink-0" />
-                <p className="text-gray-300">info@accordmanpower.com</p>
+                <p className="text-gray-300">accordmp01@gmail.com</p>
+                <p className="text-gray-300">info@accordmp.com</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Clock className="w-5 h-5 text-primary flex-shrink-0" />

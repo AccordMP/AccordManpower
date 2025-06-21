@@ -1,60 +1,41 @@
-import { apiRequest } from "./queryClient";
+import { supabase } from './supabase';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
-export interface User {
-  id: number;
-  username: string;
-  email: string;
-  role: string;
-}
-
-export interface AuthResponse {
-  token: string;
-  user: User;
-}
+// Re-exporting SupabaseUser as our app's User type for consistency
+export type User = SupabaseUser;
 
 export const authService = {
-  async login(username: string, password: string): Promise<AuthResponse> {
-    const response = await apiRequest("POST", "/api/auth/login", {
-      username,
+  async login(email: string, password: string): Promise<{ user: User | null; error: any }> {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
       password,
     });
-    const data = await response.json();
-    
-    // Store token in localStorage
-    localStorage.setItem("auth_token", data.token);
-    
-    return data;
+    return { user: data.user, error };
   },
 
-  async register(userData: {
-    username: string;
-    email: string;
-    password: string;
-    role?: string;
-  }): Promise<AuthResponse> {
-    const response = await apiRequest("POST", "/api/auth/register", userData);
-    const data = await response.json();
-    
-    // Store token in localStorage
-    localStorage.setItem("auth_token", data.token);
-    
-    return data;
+  async logout(): Promise<{ error: any }> {
+    return await supabase.auth.signOut();
   },
 
-  logout() {
-    localStorage.removeItem("auth_token");
+  onAuthStateChange(callback: (user: User | null) => void): () => void {
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      callback(session?.user ?? null);
+    });
+    return () => authListener?.subscription.unsubscribe();
   },
 
-  getToken(): string | null {
-    return localStorage.getItem("auth_token");
+  async getCurrentUser(): Promise<User | null> {
+    const { data } = await supabase.auth.getUser();
+    return data.user;
   },
 
-  isAuthenticated(): boolean {
-    return !!this.getToken();
+  async getSession() {
+    const { data } = await supabase.auth.getSession();
+    return data.session;
   },
 
-  getAuthHeaders() {
-    const token = this.getToken();
-    return token ? { Authorization: `Bearer ${token}` } : {};
+  async getAuthHeaders() {
+    const session = await this.getSession();
+    return session ? { Authorization: `Bearer ${session.access_token}` } : {};
   },
 };

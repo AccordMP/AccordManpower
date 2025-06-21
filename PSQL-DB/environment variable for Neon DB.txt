@@ -1,0 +1,13 @@
+Environment variables
+DATABASE_URL
+postgresql://neondb_owner:npg_wWeYby0BVT9n@ep-shy-feather-a5ojvrhw.us-east-2.aws.neon.tech/neondb?sslmode=require
+PGDATABASE
+neondb
+PGHOST
+ep-shy-feather-a5ojvrhw.us-east-2.aws.neon.tech
+PGPORT
+5432
+PGUSER
+neondb_owner
+PGPASSWORD
+npg_wWeYby0BVT9n

@@ -1,0 +1,8 @@
+[build]
+  command   = "npm run build"
+  publish   = "dist/public"
+
+# Disable auto Next.js detection
+[plugins]
+  package = "@netlify/plugin-nextjs"
+  inputs = { disabled = true }

@@ -1,12 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertInquirySchema, insertUserSchema, insertPageSchema, insertBlogPostSchema, insertSeoSettingsSchema } from "@shared/schema";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { z } from "zod";
-
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+import { insertInquirySchema, insertPageSchema, insertBlogPostSchema, insertSeoSettingsSchema } from "@shared/schema";
+import { supabaseAdmin } from "./supabase";
 
 // Middleware for authentication
 const authenticateToken = async (req: any, res: any, next: any) => {
@@ -18,11 +14,16 @@ const authenticateToken = async (req: any, res: any, next: any) => {
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
-    const user = await storage.getUser(decoded.userId);
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid token' });
+    const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
+    if (error || !user) {
+      return res.status(401).json({ message: 'Invalid or expired token' });
     }
+
+    // Check for admin role
+    if (user.user_metadata?.role !== 'admin') {
+      return res.status(403).json({ message: 'Forbidden: Admins only' });
+    }
+
     req.user = user;
     next();
   } catch (error) {
@@ -100,56 +101,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(settings);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
-    }
-  });
-
-  // Authentication routes
-  app.post("/api/auth/login", async (req, res) => {
-    try {
-      const { username, password } = req.body;
-      const user = await storage.getUserByUsername(username);
-      
-      if (!user || !await bcrypt.compare(password, user.password)) {
-        return res.status(401).json({ message: "Invalid credentials" });
-      }
-
-      const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '24h' });
-      res.json({ 
-        token, 
-        user: { 
-          id: user.id, 
-          username: user.username, 
-          email: user.email, 
-          role: user.role 
-        } 
-      });
-    } catch (error: any) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-
-  app.post("/api/auth/register", async (req, res) => {
-    try {
-      const validatedData = insertUserSchema.parse(req.body);
-      const hashedPassword = await bcrypt.hash(validatedData.password, 10);
-      
-      const user = await storage.createUser({
-        ...validatedData,
-        password: hashedPassword,
-      });
-
-      const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '24h' });
-      res.json({ 
-        token, 
-        user: { 
-          id: user.id, 
-          username: user.username, 
-          email: user.email, 
-          role: user.role 
-        } 
-      });
-    } catch (error: any) {
-      res.status(400).json({ message: error.message });
     }
   });
 

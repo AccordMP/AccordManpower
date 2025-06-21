@@ -1,4 +1,5 @@
 import { useState } from "react";
+import logo from "@/assets/accord-logo.png";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,7 +52,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
             <img 
-              src="/attached_assets/Accordmp logo1_1749835050687.png" 
+              src={logo} 
               alt="Accord Manpower" 
               className="w-12 h-12 object-contain"
             />
